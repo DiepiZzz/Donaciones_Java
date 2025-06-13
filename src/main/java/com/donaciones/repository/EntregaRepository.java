@@ -1,118 +1,148 @@
-
+// Archivo: com/donaciones/repository/EntregaRepository.java
 package com.donaciones.repository;
 
 import com.donaciones.model.Entrega;
 import com.donaciones.util.DatabaseConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 
 public class EntregaRepository {
 
-    public void insert(Entrega entrega) {
+    public void insert(Entrega entrega) throws SQLException {
         String sql = "INSERT INTO Entregas (id_asignacion, id_beneficiario, cantidad_entregada, fecha_entrega) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getInstancia().conectarBase();
+            if (conn == null) {
+                throw new SQLException("No se pudo obtener una conexión a la base de datos.");
+            }
+            try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setInt(1, entrega.getIdAsignacion());
+                pstmt.setInt(2, entrega.getIdBeneficiario());
+                pstmt.setBigDecimal(3, entrega.getCantidadEntregada());
+                pstmt.setDate(4, new java.sql.Date(entrega.getFechaEntrega().getTime()));
 
-            pstmt.setInt(1, entrega.getIdAsignacion());
-            pstmt.setInt(2, entrega.getIdBeneficiario());
-            pstmt.setBigDecimal(3, entrega.getCantidadEntregada());
-            pstmt.setDate(4, new java.sql.Date(entrega.getFechaEntrega().getTime()));
+                int affectedRows = pstmt.executeUpdate();
 
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        entrega.setIdEntrega(generatedKeys.getInt(1));
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            entrega.setIdEntrega(generatedKeys.getInt(1));
+                        }
                     }
                 }
             }
         } catch (SQLException e) {
             System.err.println("Error al insertar entrega: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public Entrega findById(int id) {
+    public Entrega findById(int id) throws SQLException {
         String sql = "SELECT * FROM Entregas WHERE id_entrega = ?";
         Entrega entrega = null;
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getInstancia().conectarBase();
+            if (conn == null) {
+                throw new SQLException("No se pudo obtener una conexión a la base de datos.");
+            }
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        entrega = new Entrega(
+                            rs.getInt("id_entrega"),
+                            rs.getInt("id_asignacion"),
+                            rs.getInt("id_beneficiario"),
+                            rs.getBigDecimal("cantidad_entregada"),
+                            rs.getDate("fecha_entrega")
+                        );
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar entrega por ID: " + e.getMessage());
+            throw e;
+        }
+        return entrega;
+    }
 
-            pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    entrega = new Entrega(
+    public List<Entrega> findAll() throws SQLException {
+        String sql = "SELECT * FROM Entregas";
+        List<Entrega> entregas = new ArrayList<>();
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getInstancia().conectarBase();
+            if (conn == null) {
+                throw new SQLException("No se pudo obtener una conexión a la base de datos.");
+            }
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+
+                while (rs.next()) {
+                    Entrega entrega = new Entrega(
                         rs.getInt("id_entrega"),
                         rs.getInt("id_asignacion"),
                         rs.getInt("id_beneficiario"),
                         rs.getBigDecimal("cantidad_entregada"),
                         rs.getDate("fecha_entrega")
                     );
+                    entregas.add(entrega);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al buscar entrega por ID: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return entrega;
-    }
-
-    public List<Entrega> findAll() {
-        String sql = "SELECT * FROM Entregas";
-        List<Entrega> entregas = new ArrayList<>();
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Entrega entrega = new Entrega(
-                    rs.getInt("id_entrega"),
-                    rs.getInt("id_asignacion"),
-                    rs.getInt("id_beneficiario"),
-                    rs.getBigDecimal("cantidad_entregada"),
-                    rs.getDate("fecha_entrega")
-                );
-                entregas.add(entrega);
-            }
-        } catch (SQLException e) {
             System.err.println("Error al obtener todas las entregas: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
         return entregas;
     }
 
-    public void update(Entrega entrega) {
+    public void update(Entrega entrega) throws SQLException {
         String sql = "UPDATE Entregas SET id_asignacion = ?, id_beneficiario = ?, cantidad_entregada = ?, fecha_entrega = ? WHERE id_entrega = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getInstancia().conectarBase();
+            if (conn == null) {
+                throw new SQLException("No se pudo obtener una conexión a la base de datos.");
+            }
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, entrega.getIdAsignacion());
+                pstmt.setInt(2, entrega.getIdBeneficiario());
+                pstmt.setBigDecimal(3, entrega.getCantidadEntregada());
+                pstmt.setDate(4, new java.sql.Date(entrega.getFechaEntrega().getTime()));
+                pstmt.setInt(5, entrega.getIdEntrega());
 
-            pstmt.setInt(1, entrega.getIdAsignacion());
-            pstmt.setInt(2, entrega.getIdBeneficiario());
-            pstmt.setBigDecimal(3, entrega.getCantidadEntregada());
-            pstmt.setDate(4, new java.sql.Date(entrega.getFechaEntrega().getTime()));
-            pstmt.setInt(5, entrega.getIdEntrega());
-
-            pstmt.executeUpdate();
+                pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             System.err.println("Error al actualizar entrega: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws SQLException {
         String sql = "DELETE FROM Entregas WHERE id_entrega = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getInstancia().conectarBase();
+            if (conn == null) {
+                throw new SQLException("No se pudo obtener una conexión a la base de datos.");
+            }
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             System.err.println("Error al eliminar entrega: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 }
