@@ -1,12 +1,15 @@
 package com.donaciones.menus;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.donacione.servicios.AsignacionService;
 import com.donacione.servicios.InventarioService;
 
 public class MenuGestiónInventarioAsignaciones {
-	public static void mostrarMenu(Scanner scanner) {
+	public static void mostrarMenu(Scanner scanner) throws SQLException {
 		InventarioService service = new InventarioService();
+		AsignacionService serviceAsig = new AsignacionService();
         int opcion;
 
         do {
@@ -25,12 +28,15 @@ public class MenuGestiónInventarioAsignaciones {
                     service.mostrarInventarioResumen();
                     break;
                 case 2:
-                    // Llamar método para registrar asignación
+                	System.out.println("");
                     System.out.println("Registrando nueva asignación...");
+                    serviceAsig.registrarAsignacion(scanner);
+                    
                     break;
                 case 3:
-                    // Llamar método para listar asignaciones //
+                	System.out.println("");
                     System.out.println("Listado de asignaciones:");
+                    serviceAsig.listarAsignaciones();
                     break;
                 case 0:
                     System.out.println("Volviendo al menú principal...");
