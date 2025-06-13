@@ -3,6 +3,7 @@ package com.donaciones.menus;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.donacione.servicios.DonacionesService;
 import com.donacione.servicios.DonanteService;
 
 public class MenuGestiónDonantesDonaciones {
@@ -10,6 +11,7 @@ public class MenuGestiónDonantesDonaciones {
 
 	    public static void mostrarMenu(Scanner scanner) throws SQLException {
 			DonanteService service = new DonanteService();
+			DonacionesService serviceDonacion = new DonacionesService();
 	        int opcion;
 
 	        do {
@@ -37,7 +39,7 @@ public class MenuGestiónDonantesDonaciones {
 	                    System.out.println("Listado de donantes:");
 	                    break;
 	                case 4:
-	                    // Aquí llamas a tu método para listar donaciones
+	                    serviceDonacion.listarDonaciones();
 	                    System.out.println("Listado de donaciones:");
 	                    break;
 	                case 0:
