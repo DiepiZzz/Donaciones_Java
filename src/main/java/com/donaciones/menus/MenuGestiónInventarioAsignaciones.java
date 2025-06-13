@@ -25,7 +25,7 @@ public class MenuGestiónInventarioAsignaciones {
                     System.out.println("Registrando nueva asignación...");
                     break;
                 case 3:
-                    // Llamar método para listar asignaciones
+                    // Llamar método para listar asignaciones //
                     System.out.println("Listado de asignaciones:");
                     break;
                 case 0:
