@@ -1,6 +1,7 @@
 package com.donacione.servicios;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.donaciones.model.Donante;
@@ -40,5 +41,19 @@ public class DonanteService {
             System.out.println("❌ Error al registrar donante.");
         }
     }
+    
+    public void listarDonantes() throws SQLException {
+    	
+    	List<Donante> listaDonantes = repositorio.findAll();
+    	
+    	for (Donante donante : listaDonantes) {
+			System.out.println(donante.toString());
+		}
+    	
+    	
+    	
+    }
+    
+    
 }
 

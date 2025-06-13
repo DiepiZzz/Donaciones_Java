@@ -6,8 +6,10 @@ import java.util.Scanner;
 import com.donacione.servicios.DonanteService;
 
 public class MenuGestiónDonantesDonaciones {
+	
 
 	    public static void mostrarMenu(Scanner scanner) throws SQLException {
+			DonanteService service = new DonanteService();
 	        int opcion;
 
 	        do {
@@ -22,7 +24,7 @@ public class MenuGestiónDonantesDonaciones {
 
 	            switch (opcion) {
 	                case 1:
-	                    DonanteService service = new DonanteService();
+	                    
 	                    service.registrarDonante();
 	                    System.out.println("Registrando nuevo donante...");
 	                    break;
@@ -31,7 +33,7 @@ public class MenuGestiónDonantesDonaciones {
 	                    System.out.println("Registrando nueva donación...");
 	                    break;
 	                case 3:
-	                    // Aquí llamas a tu método para listar donantes
+	                    service.listarDonantes();
 	                    System.out.println("Listado de donantes:");
 	                    break;
 	                case 4:
