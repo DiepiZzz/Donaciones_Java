@@ -24,7 +24,7 @@ public class MenuPrincipal {
                     MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
                     break;
                 case 2:
-                    // Llamar a menú de inventario
+                	MenuGestiónInventarioAsignaciones.mostrarMenu(scanner);
                     break;
                 case 3:
                     // Llamar a menú de entregas

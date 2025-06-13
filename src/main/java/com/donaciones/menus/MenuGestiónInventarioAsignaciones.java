@@ -2,8 +2,11 @@ package com.donaciones.menus;
 
 import java.util.Scanner;
 
+import com.donacione.servicios.InventarioService;
+
 public class MenuGestiónInventarioAsignaciones {
 	public static void mostrarMenu(Scanner scanner) {
+		InventarioService service = new InventarioService();
         int opcion;
 
         do {
@@ -17,8 +20,9 @@ public class MenuGestiónInventarioAsignaciones {
 
             switch (opcion) {
                 case 1:
-                    // Llamar método para ver inventario
+                	System.out.println("");
                     System.out.println("Mostrando inventario...");
+                    service.mostrarInventarioResumen();
                     break;
                 case 2:
                     // Llamar método para registrar asignación
