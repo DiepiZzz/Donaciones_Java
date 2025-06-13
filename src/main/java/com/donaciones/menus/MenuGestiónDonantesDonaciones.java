@@ -1,10 +1,13 @@
 package com.donaciones.menus;
 
+import java.sql.SQLException;
 import java.util.Scanner;
+
+import com.donacione.servicios.DonanteService;
 
 public class MenuGestiónDonantesDonaciones {
 
-	    public static void mostrarMenu(Scanner scanner) {
+	    public static void mostrarMenu(Scanner scanner) throws SQLException {
 	        int opcion;
 
 	        do {
@@ -19,7 +22,8 @@ public class MenuGestiónDonantesDonaciones {
 
 	            switch (opcion) {
 	                case 1:
-	                    // Aquí llamas a tu método para registrar donante
+	                    DonanteService service = new DonanteService();
+	                    service.registrarDonante();
 	                    System.out.println("Registrando nuevo donante...");
 	                    break;
 	                case 2:

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DonanteRepository {
 
-    public void insert(Donante donante) throws SQLException {
+    public boolean insert(Donante donante) throws SQLException {
         String sql = "INSERT INTO Donantes (nombre, apellido, email, telefono) VALUES (?, ?, ?, ?)";
         Connection conn = null;
         try {
@@ -33,6 +33,8 @@ public class DonanteRepository {
                     try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             donante.setIdDonante(generatedKeys.getInt(1));
+                            System.out.println("guardado");
+                            return true;
                         }
                     }
                 }
@@ -41,6 +43,8 @@ public class DonanteRepository {
             System.err.println("Error al insertar donante: " + e.getMessage());
             throw e; // Relanza la excepción para que la capa superior la maneje
         }
+        
+        return false;
     }
 
     public Donante findById(int id) throws SQLException {
