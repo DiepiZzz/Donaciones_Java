@@ -1,4 +1,3 @@
-// Archivo: com/donaciones/repository/InventarioRepository.java
 package com.donaciones.repository;
 
 import com.donaciones.model.Inventario;

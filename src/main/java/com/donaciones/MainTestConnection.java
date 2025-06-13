@@ -27,13 +27,11 @@ public class MainTestConnection {
                 JOptionPane.showMessageDialog(null, errorMessage, "Error de Conexión", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Captura las excepciones SQL que podrían venir de conectarBase()
             String errorMessage = "Error de SQL al intentar conectar: " + e.getMessage();
             System.err.println(errorMessage);
             JOptionPane.showMessageDialog(null, errorMessage, "Error de SQL", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (Exception e) {
-            // Captura cualquier otra excepción inesperada
             String errorMessage = "Error inesperado: " + e.getMessage();
             System.err.println(errorMessage);
             JOptionPane.showMessageDialog(null, errorMessage, "Error General", JOptionPane.ERROR_MESSAGE);

@@ -1,4 +1,3 @@
-// Archivo: com/donaciones/repository/BeneficiarioRepository.java
 package com.donaciones.repository;
 
 import com.donaciones.model.Beneficiario;

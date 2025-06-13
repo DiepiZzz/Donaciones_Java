@@ -1,8 +1,7 @@
-// Archivo: com/donaciones/repository/DonanteRepository.java
 package com.donaciones.repository;
 
 import com.donaciones.model.Donante;
-import com.donaciones.util.DatabaseConnection; // Importa tu clase de conexión
+import com.donaciones.util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

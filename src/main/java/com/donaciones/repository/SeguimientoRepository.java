@@ -1,4 +1,3 @@
-// Archivo: com/donaciones/repository/SeguimientoRepository.java
 package com.donaciones.repository;
 
 import com.donaciones.model.Seguimiento;
