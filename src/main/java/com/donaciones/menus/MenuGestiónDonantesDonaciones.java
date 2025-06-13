@@ -1,3 +1,4 @@
+
 package com.donaciones.menus;
 
 import java.sql.SQLException;
@@ -26,24 +27,33 @@ public class MenuGestiónDonantesDonaciones {
 
 	            switch (opcion) {
 	                case 1:
-	                    
-	                    service.registrarDonante();
+	                	System.out.println("");
 	                    System.out.println("Registrando nuevo donante...");
+	                    service.registrarDonante();
+	                    MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
 	                    break;
 	                case 2:
 	                    // Aquí llamas a tu método para registrar donación
+	                	System.out.println("");
 	                    System.out.println("Registrando nueva donación...");
+	                    MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
 	                    break;
 	                case 3:
-	                    service.listarDonantes();
+	                	System.out.println("");
 	                    System.out.println("Listado de donantes:");
+	                    service.listarDonantes();
+	                    MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
 	                    break;
 	                case 4:
-	                    serviceDonacion.listarDonaciones();
+	                	System.out.println("");
 	                    System.out.println("Listado de donaciones:");
+	                    service.listarDonantes();
+	                    MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
 	                    break;
 	                case 0:
+	                	System.out.println("");
 	                    System.out.println("Volviendo al menú principal...");
+	                    MenuPrincipal.main(null);
 	                    break;
 	                default:
 	                    System.out.println("Opción inválida.");
