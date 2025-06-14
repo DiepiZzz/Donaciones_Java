@@ -1,4 +1,3 @@
-
 package com.donaciones.menus;
 
 import java.sql.SQLException;
@@ -47,7 +46,7 @@ public class MenuGestiónDonantesDonaciones {
 	                case 4:
 	                	System.out.println("");
 	                    System.out.println("Listado de donaciones:");
-	                    service.listarDonantes();
+	                    serviceDonacion.listarDonaciones();
 	                    MenuGestiónDonantesDonaciones.mostrarMenu(scanner);
 	                    break;
 	                case 0:

@@ -8,7 +8,7 @@ public class Inventario {
     private String tipoAlimento;
     private BigDecimal cantidadDisponible;
     private Date fechaCaducidad;
-    private int idDonacion; // Clave foránea
+    private int idDonacion; 
 
     public Inventario() {
     }

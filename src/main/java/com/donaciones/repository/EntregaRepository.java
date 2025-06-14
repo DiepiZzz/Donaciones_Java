@@ -1,4 +1,4 @@
-// Archivo: com/donaciones/repository/EntregaRepository.java
+
 package com.donaciones.repository;
 
 import com.donaciones.model.Entrega;
@@ -12,14 +12,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
-import java.util.Date; // Importa java.util.Date si tu modelo Entrega usa java.util.Date
+import java.util.Date; 
 
 public class EntregaRepository {
 
-    /**
-     * Inserta un nuevo registro de entrega en la base de datos.
-     * El ID de la entrega se generará automáticamente.
-     */
+    
     public void insert(Entrega entrega) throws SQLException {
         String sql = "INSERT INTO Entrega (id_asignacion, id_beneficiario, cantidad_entregada, fecha_entrega) VALUES (?, ?, ?, ?)";
         Connection conn = null;
@@ -32,7 +29,7 @@ public class EntregaRepository {
                 pstmt.setInt(1, entrega.getIdAsignacion());
                 pstmt.setInt(2, entrega.getIdBeneficiario());
                 pstmt.setBigDecimal(3, entrega.getCantidadEntregada());
-                // Convierte java.util.Date a java.sql.Date
+                
                 pstmt.setDate(4, entrega.getFechaEntrega() != null ? new java.sql.Date(entrega.getFechaEntrega().getTime()) : null);
 
                 int affectedRows = pstmt.executeUpdate();
@@ -40,7 +37,7 @@ public class EntregaRepository {
                 if (affectedRows > 0) {
                     try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            entrega.setIdEntrega(generatedKeys.getInt(1)); // Asigna el ID generado al objeto
+                            entrega.setIdEntrega(generatedKeys.getInt(1)); 
                         }
                     }
                 }
@@ -51,9 +48,7 @@ public class EntregaRepository {
         }
     }
 
-    /**
-     * Busca un registro de entrega por su ID.
-     */
+    
     public Entrega findById(int id) throws SQLException {
         String sql = "SELECT * FROM Entrega WHERE id_entrega = ?";
         Entrega entrega = null;
@@ -84,9 +79,7 @@ public class EntregaRepository {
         return entrega;
     }
 
-    /**
-     * Busca todos los registros de entrega.
-     */
+    
     public List<Entrega> findAll() throws SQLException {
         List<Entrega> entregas = new ArrayList<>();
         String sql = "SELECT * FROM Entrega";
@@ -116,9 +109,7 @@ public class EntregaRepository {
         return entregas;
     }
 
-    /**
-     * Actualiza un registro de entrega existente.
-     */
+    
     public void update(Entrega entrega) throws SQLException {
         String sql = "UPDATE Entrega SET id_asignacion = ?, id_beneficiario = ?, cantidad_entregada = ?, fecha_entrega = ? WHERE id_entrega = ?";
         Connection conn = null;
@@ -141,9 +132,7 @@ public class EntregaRepository {
         }
     }
 
-    /**
-     * Elimina un registro de entrega por su ID.
-     */
+    
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM Entrega WHERE id_entrega = ?";
         Connection conn = null;
@@ -162,12 +151,7 @@ public class EntregaRepository {
         }
     }
 
-    /**
-     * Busca todas las entregas asociadas a un beneficiario específico.
-     * @param idBeneficiario El ID del beneficiario.
-     * @return Una lista de objetos Entrega.
-     * @throws SQLException Si ocurre un error de base de datos.
-     */
+    
     public List<Entrega> findByBeneficiarioId(int idBeneficiario) throws SQLException {
         List<Entrega> entregas = new ArrayList<>();
         String sql = "SELECT * FROM Entrega WHERE id_beneficiario = ?";

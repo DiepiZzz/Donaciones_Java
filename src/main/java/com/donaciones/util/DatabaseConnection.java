@@ -1,4 +1,3 @@
-//apue
 package com.donaciones.util;
 
 import java.sql.Connection;

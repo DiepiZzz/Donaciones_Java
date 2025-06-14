@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class Entrega {
     private int idEntrega;
-    private int idAsignacion; // Clave foránea
-    private int idBeneficiario; // Clave foránea
+    private int idAsignacion; 
+    private int idBeneficiario; 
     private BigDecimal cantidadEntregada;
     private Date fechaEntrega;
 

@@ -1,27 +1,27 @@
-// Archivo: com/donaciones/menus/MenuGestionEntregasBeneficiarios.java
+
 package com.donaciones.menus;
 
 import com.donaciones.model.Beneficiario;
 import com.donaciones.model.Entrega;
-import com.donacione.servicios.BeneficiarioService; // Importa tu servicio de Beneficiario
-import com.donacione.servicios.EntregaService;     // Importa tu servicio de Entrega
+import com.donacione.servicios.BeneficiarioService; 
+import com.donacione.servicios.EntregaService;     
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.ParseException; // Para manejar errores de formato de fecha
-import java.text.SimpleDateFormat; // Para parsear fechas
+import java.text.ParseException; 
+import java.text.SimpleDateFormat; 
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuGestionEntregasBeneficiarios {
 
-    // Instancias de los servicios
+    
     private static BeneficiarioService beneficiarioService = new BeneficiarioService();
     private static EntregaService entregaService = new EntregaService();
-    private static Scanner scanner; // Usamos el scanner que se pasa desde el main
+    private static Scanner scanner; 
 
     public static void mostrarMenu(Scanner sc) {
-        scanner = sc; // Asigna el scanner pasado al estático de la clase
+        scanner = sc; 
         int opcion;
 
         do {
@@ -32,14 +32,14 @@ public class MenuGestionEntregasBeneficiarios {
             System.out.println("0. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
 
-            // Manejo de entrada no numérica
+            
             while (!scanner.hasNextInt()) {
                 System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                scanner.next(); // Consumir la entrada inválida
+                scanner.next(); 
                 System.out.print("Seleccione una opción: ");
             }
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+            scanner.nextLine(); 
 
             switch (opcion) {
                 case 1:
@@ -60,7 +60,7 @@ public class MenuGestionEntregasBeneficiarios {
         } while (opcion != 0);
     }
 
-    // --- Métodos para cada opción del menú ---
+    
 
     private static void registrarEntrega() {
         System.out.println("\n--- REGISTRAR NUEVA ENTREGA ---");
@@ -82,11 +82,11 @@ public class MenuGestionEntregasBeneficiarios {
             Date fechaEntrega = null;
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                sdf.setLenient(false); // No permitir fechas inválidas como 2023-02-30
+                sdf.setLenient(false); 
                 fechaEntrega = sdf.parse(fechaStr);
             } catch (ParseException e) {
                 System.err.println("Formato de fecha inválido. Use YYYY-MM-DD.");
-                return; // Salir del método si la fecha es inválida
+                return; 
             }
 
             Entrega nuevaEntrega = new Entrega(0, idAsignacion, idBeneficiario, cantidadEntregada, fechaEntrega);
@@ -97,7 +97,7 @@ public class MenuGestionEntregasBeneficiarios {
             System.err.println("Error de validación: " + e.getMessage());
         } catch (SQLException e) {
             System.err.println("Error de base de datos al registrar entrega: " + e.getMessage());
-            // Opcional: e.printStackTrace(); para ver el stack trace completo
+            
         } catch (Exception e) {
             System.err.println("Ocurrió un error inesperado al registrar la entrega: " + e.getMessage());
         }
@@ -138,7 +138,7 @@ public class MenuGestionEntregasBeneficiarios {
             int idBeneficiario = scanner.nextInt();
             scanner.nextLine();
 
-            // Primero, verificar si el beneficiario existe
+            
             Beneficiario beneficiario = beneficiarioService.buscarBeneficiarioPorId(idBeneficiario);
             if (beneficiario == null) {
                 System.out.println("No se encontró ningún beneficiario con ID: " + idBeneficiario);
@@ -148,9 +148,9 @@ public class MenuGestionEntregasBeneficiarios {
             System.out.println("--------------------------------------------------------------------------------------------------");
 
 
-            // Para consultar entregas por beneficiario, necesitarás un nuevo método en EntregaRepository.
-            // Por ahora, listaremos todas y filtraremos en memoria (NO RECOMENDADO PARA GRANDES CANTIDADES DE DATOS).
-            // Lo ideal es tener un método `entregaService.obtenerEntregasPorBeneficiario(idBeneficiario);`
+            
+            
+            
 
             List<Entrega> todasLasEntregas = entregaService.obtenerTodasLasEntregas();
             boolean foundEntregas = false;

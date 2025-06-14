@@ -17,7 +17,7 @@ public class DonanteRepository {
         String sql = "INSERT INTO Donantes (nombre, apellido, email, telefono) VALUES (?, ?, ?, ?)";
         Connection conn = null;
         try {
-            conn = DatabaseConnection.getInstancia().conectarBase(); // Obtener la conexión
+            conn = DatabaseConnection.getInstancia().conectarBase(); 
             if (conn == null) {
                 throw new SQLException("No se pudo obtener una conexión a la base de datos.");
             }
@@ -41,7 +41,7 @@ public class DonanteRepository {
             }
         } catch (SQLException e) {
             System.err.println("Error al insertar donante: " + e.getMessage());
-            throw e; // Relanza la excepción para que la capa superior la maneje
+            throw e; 
         }
         
         return false;

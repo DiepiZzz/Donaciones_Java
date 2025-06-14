@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Seguimiento {
     private int idSeguimiento;
-    private int idEntrega; // Clave foránea
+    private int idEntrega; 
     private String observaciones;
     private Date fechaSeguimiento;
 
